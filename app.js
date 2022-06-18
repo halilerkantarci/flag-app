@@ -12,6 +12,7 @@ const fetchCountry = async (name) => {
       throw new Error();
     }
     const data = await res.json();
+    // veri, array olarak geldiği için,içindeki objeleri direkt gördük
     renderCountry(data[0]);
   } catch (error) {
     console.log(error);
@@ -29,8 +30,28 @@ const renderError = (err) => {
 const renderCountry = (country) => {
   console.log(country);
   const countriesDiv = document.querySelector(".countries");
-  const { capital } = country;
-  console.log(capital[0]);
+  //! name objesini dest yaptım, name objesinin içinde common olduğu için nested bir dest yapısı kullanabilirim
+  //* DEST
+  const {
+    capital,
+    name: { common },
+    region,
+    flags: { svg },
+    languages,
+    currencies,
+  } = country;
+  console.log(
+    capital[0],
+    common,
+    region,
+    svg,
+    Object.values(languages)[0],
+    Object.values(currencies)[0].name,
+    Object.values(currencies)[0].symbol
+  );
+  // languages propertisi içinde değişken bir object var. bu şekilde çağırabiliriz; array dönderdiği için [index number] kullanabiliriz.
+  console.log(Object.values(languages));
+  console.log(Object.values(currencies)[0].name);
 };
 
 fetchCountry("turkey");
